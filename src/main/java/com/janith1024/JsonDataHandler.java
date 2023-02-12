@@ -1,21 +1,21 @@
 package com.janith1024;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.janith1024.data.Drone;
 import com.janith1024.data.JsonData;
+import com.janith1024.data.Model;
+import com.janith1024.data.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.stream.IntStream;
 
 public class JsonDataHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonDataHandler.class);
 
-    private static final List<JsonData> JSON_DATA = new ArrayList<>();
+    private static JsonData data = new JsonData();
     private static String filePath;
 
     /**
@@ -23,7 +23,7 @@ public class JsonDataHandler {
      */
     public static void saveToFile() {
         LOGGER.info("saveToFile");
-        saveJson(new Gson().toJson(JSON_DATA));
+        saveJson(new Gson().toJson(data));
     }
 
     /**
@@ -31,28 +31,31 @@ public class JsonDataHandler {
      */
     public static void loadFromFile() {
         LOGGER.info("loadFromFile");
-        JSON_DATA.clear();
-        JSON_DATA.addAll(readFromFile());
+        data = readFromFile();
     }
 
     public static void setFilePath(String filePath) throws IOException {
+        JsonDataHandler.filePath = filePath;
         File file = new File(filePath);
         if (!file.exists()) {
             LOGGER.info("File is not exist so create one");
+            initDrones();
             saveToFile();
         }
 
-        JsonDataHandler.filePath = filePath;
     }
 
-    private static List<JsonData> readFromFile() {
+    public static JsonData getData() {
+        return data;
+    }
+
+    private static JsonData readFromFile() {
         try {
-            return new Gson().fromJson(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8), new TypeToken<List<JsonData>>() {
-            }.getType());
+            return new Gson().fromJson(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8), JsonData.class);
         } catch (FileNotFoundException e) {
             LOGGER.error("file not found {}", filePath);
         }
-        return Collections.emptyList();
+        return new JsonData();
     }
 
     private static void saveJson(String json) {
@@ -65,5 +68,18 @@ public class JsonDataHandler {
                 LOGGER.error("", e);
             }
         }
+    }
+
+    /**
+     * This is the method with initiate the 10 drones according to the requirement
+     */
+    private static void initDrones() {
+        IntStream.range(0, 10).mapToObj(value -> new Drone().setSerial("1234-578-drt-0" + value)
+                .setModel(getModel(value)).setBatteryCapacity(100).setState(State.IDLE)).forEach(data::addDrone);
+
+    }
+
+    private static Model getModel(int value) {
+        return Model.values()[value % Model.values().length];
     }
 }
