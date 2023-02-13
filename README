@@ -1,4 +1,7 @@
-First open the create a folder call json in C directory. (This application run only in Windows PCs which have java runtime environment late than java 8)
+First open the create a folder call 'json' in C directory. (This application run only in Windows PCs which have java runtime environment late than java 8)
+
+Google not support to send jar files inside the zip file so you have to run mvn install to build the jar file
+
 Then double click the run.bat file to start the spring boot application.
 Open the browser and go to the http://localhost:8080/drones/test url to verify the service is up and running 
 •	To registering a drone, you can post request  http://localhost:8080/drones/register with following request body
