@@ -23,7 +23,7 @@ public class JsonDataHandler {
      */
     public static void saveToFile() {
         LOGGER.info("saveToFile");
-        saveJson(new Gson().toJson(data));
+        saveJson(new Gson().toJson(data.incrementVersion()));
     }
 
     /**
@@ -39,7 +39,6 @@ public class JsonDataHandler {
         File file = new File(filePath);
         if (!file.exists()) {
             LOGGER.info("File is not exist so create one");
-            initDrones();
             saveToFile();
         }
 
@@ -70,16 +69,4 @@ public class JsonDataHandler {
         }
     }
 
-    /**
-     * This is the method with initiate the 10 drones according to the requirement
-     */
-    private static void initDrones() {
-        IntStream.range(0, 10).mapToObj(value -> new Drone().setSerial("1234-578-drt-0" + value)
-                .setModel(getModel(value)).setBatteryCapacity(100).setState(State.IDLE)).forEach(data::addDrone);
-
-    }
-
-    private static Model getModel(int value) {
-        return Model.values()[value % Model.values().length];
-    }
 }

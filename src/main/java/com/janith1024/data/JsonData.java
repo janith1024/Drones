@@ -1,21 +1,27 @@
 package com.janith1024.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class JsonData {
-    private final List<Drone> drones;
+    private final Set<Drone> drones;
+    private long version;
 
     public JsonData() {
-        this.drones = new ArrayList<>();
+        this.drones = new HashSet<>();
     }
 
-    public List<Drone> getDrones() {
+    public Set<Drone> getDrones() {
         return this.drones;
     }
 
-    public void addDrone(Drone drone) {
-        this.drones.add(drone);
+    public boolean addDrone(Drone drone) {
+        return this.drones.add(drone);
+    }
+
+    public JsonData incrementVersion() {
+        version++;
+        return this;
     }
 
 }

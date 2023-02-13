@@ -1,12 +1,12 @@
 package com.janith1024.data;
 
 public enum Model {
-    LIGHTWEIGHT("Lightweight", 100.0F), MIDDLEWEIGHT("Middleweight", 200.0F), CRUISER_WEIGHT("Cruiserweight", 300.0F), HEAVYWEIGHT("Heavyweight", 500.0F);
+    LIGHTWEIGHT("Lightweight", 100.0), MIDDLEWEIGHT("Middleweight", 300.0), CRUISER_WEIGHT("Cruiserweight", 400.0), HEAVYWEIGHT("Heavyweight", 500.0);
 
     private final String name;
-    private final float weightLimit;
+    private final double weightLimit;
 
-    Model(String name, float weightLimit) {
+    Model(String name, double weightLimit) {
         this.name = name;
         this.weightLimit = weightLimit;
     }
@@ -15,7 +15,8 @@ public enum Model {
         return name;
     }
 
-    public float getWeightLimit() {
+    public double getWeightLimit() {
         return weightLimit;
     }
+
 }

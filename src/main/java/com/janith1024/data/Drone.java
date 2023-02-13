@@ -1,13 +1,16 @@
 package com.janith1024.data;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Drone {
     private String serial;
     private Model model;
-    private float batteryCapacity;
+    private double batteryCapacity;
     private State state;
-    private List<Medication> load;
+    //For the moment the requirement is to deliver one item at a time. But I use list to keep the extendability in future
+    private final List<DeliveryItem> deliveryItems = new ArrayList<>();
 
     public String getSerial() {
         return serial;
@@ -27,11 +30,11 @@ public class Drone {
         return this;
     }
 
-    public float getBatteryCapacity() {
+    public double getBatteryCapacity() {
         return batteryCapacity;
     }
 
-    public Drone setBatteryCapacity(float batteryCapacity) {
+    public Drone setBatteryCapacity(double batteryCapacity) {
         this.batteryCapacity = batteryCapacity;
         return this;
     }
@@ -45,12 +48,24 @@ public class Drone {
         return this;
     }
 
-    public List<Medication> getLoad() {
-        return load;
+    public List<DeliveryItem> getDeliveryItems() {
+        return deliveryItems;
     }
 
-    public Drone setLoad(List<Medication> load) {
-        this.load = load;
-        return this;
+    public void addDeliveryItem(DeliveryItem deliveryItem) {
+        this.deliveryItems.add(deliveryItem);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Drone drone = (Drone) o;
+        return Objects.equals(getSerial(), drone.getSerial());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSerial());
     }
 }
