@@ -1,1 +1,21 @@
-First open the application.properties file and configure the dataFilePath path
+First open the create a folder call json in C directory. (This application run only in Windows PCs which have java runtime environment late than java 8)
+Then double click the run.bat file to start the spring boot application.
+Open the browser and go to the http://localhost:8080/drones/test url to verify the service is up and running 
+•	To registering a drone, you can post request  http://localhost:8080/drones/register with following request body
+{
+"serial":"SrialNumber","model":"MIDDLEWEIGHT","batteryCapacity":100.0,"state":"IDLE"
+}
+
+•	To load a drone with medication items you can post request http://localhost:8080/drones/load/{seriaNumber} with the following body
+[{
+    "name":"drug1","weight":10,"code":"ERRF"
+    }
+]
+•	To check the loaded medication items for a given drone get request to http://localhost:8080/drones/checkLoad/{serialNumber} 
+
+•	To check the available drones for loading http://localhost:8080/drones/findAvailable 
+
+•	To check drone battery level for a given drone http://localhost:8080/drones/getBatteryLevel?serialNumber={serialNumber} 
+
+This program don’t have data base it handle the data in memory structure and write to a json file when the app is closing and read them again when re open the app
+

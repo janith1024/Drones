@@ -1,0 +1,1 @@
+java -jar DroneService-1.0-SNAPSHOT.jar
